@@ -38,10 +38,27 @@ struct Song {
 extension Song: CustomStringConvertible {
   // Size should be printed in Megabytes (use 1000 kilobytes = 1 MB for this calculation), to 1 decimal place.
   // The category abbreviations used should be: Pop, Rock, Alt, Cls, HH, RnB
-  // Example:
+  // Example:       (35 spaces)                         (20 spaces)     (12 spaces)
   // | Title                               | Artist                   | Style       | Size (MB)
   var description: String {
     // TODO: - YOUR CODE HERE
-    return ""
+      let titleSpace = String(repeating: " ", count: 35 - title.count)
+      let artistSpace = String(repeating: " ", count: 20 - artist.count)
+      var catString = ""
+      switch category {
+      case .pop:
+          catString = "Pop\(String(repeating: " ", count: 9))"
+      case .rock:
+          catString = "Rock\(String(repeating: " ", count: 8))"
+      case .alternative:
+          catString = "Alt\(String(repeating: " ", count: 9))"
+      case .hiphop:
+          catString = "HH\(String(repeating: " ", count: 10))"
+      case .classical:
+          catString = "Cls\(String(repeating: " ", count: 9))"
+      case .rnb:
+          catString = "RnB\(String(repeating: " ", count: 9))"
+      }
+    return "| \(title)\(titleSpace)| \(artist)\(artistSpace)| \(catString)| \(size / 1000)"
   }
 }
