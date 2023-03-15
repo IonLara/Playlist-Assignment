@@ -41,4 +41,22 @@ struct Playlist {
         }
         return false
     }
+    
+    func showPlaylist() { //92 spaces total
+        var count = 0
+        var size = 0.0
+        
+        let line = String(repeating: "-", count: 86)
+        print(line)
+        print("| Title                              | Artist              | Style       | Size (MB)")
+        print(line)
+        for song in songs {
+            print(song)
+            count += 1
+            size += Double(song.size) / 1000
+        }
+        print(line)
+        print("Total: \(count) songs in the playlist.")
+        print("Size: \(size) MB.")
+    }
 }
