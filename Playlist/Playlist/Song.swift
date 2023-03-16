@@ -59,6 +59,7 @@ extension Song: CustomStringConvertible {
       case .rnb:
           catString = "RnB\(String(repeating: " ", count: 9))"
       }
-    return "| \(title)\(titleSpace)| \(artist)\(artistSpace)| \(catString)| \(Double(size) / 1000)"
+      let sizeString = String(format: "%.1f", Double(size) / 1000)
+    return "| \(title)\(titleSpace)| \(artist)\(artistSpace)| \(catString)| \(sizeString)"
   }
 }

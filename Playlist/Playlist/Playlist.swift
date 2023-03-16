@@ -43,6 +43,46 @@ struct Playlist {
     }
     
     func showPlaylist() { //92 spaces total
+        display(songs)
+    }
+    
+    func showByCat(_ cat: Song.Style) {
+        var songsInCat: [Song] = []
+        var genreString = ""
+        for song in songs {
+            if song.category == cat {
+                songsInCat.append(song)
+            }
+        }
+        switch cat {
+        case .pop:
+            genreString = "Pop"
+        case .rock:
+            genreString = "Rock"
+        case .alternative:
+            genreString = "Alternative"
+        case .rnb:
+            genreString = "RnB"
+        case .hiphop:
+            genreString = "HipHop"
+        case .classical:
+            genreString = "Classical"
+        }
+        print("\(genreString) songs:")
+        display(songsInCat)
+    }
+    
+    func checkSize() {
+        var size = 0
+        for song in songs {
+            size += song.size
+        }
+        print("Total space used by playlist:")
+        print("\(size) KB")
+        print()
+    }
+    
+    func display(_ list: [Song]) {
         var count = 0
         var size = 0.0
         
@@ -50,13 +90,15 @@ struct Playlist {
         print(line)
         print("| Title                              | Artist              | Style       | Size (MB)")
         print(line)
-        for song in songs {
+        for song in list {
             print(song)
             count += 1
-            size += Double(song.size) / 1000
+            size += ((Double(song.size) / 1000) * 10).rounded() / 10
         }
+        let sizeString = String(format: "%.1f", size)
         print(line)
         print("Total: \(count) songs in the playlist.")
-        print("Size: \(size) MB.")
+        print("Size: \(sizeString) MB.")
+        print()
     }
 }
