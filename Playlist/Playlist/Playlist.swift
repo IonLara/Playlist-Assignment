@@ -77,8 +77,7 @@ struct Playlist {
         for song in songs {
             size += song.size
         }
-        print("Total space used by playlist:")
-        print("\(size) KB")
+        print("Total size: \(size) KB")
         print()
     }
     
