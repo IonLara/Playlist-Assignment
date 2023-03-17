@@ -41,9 +41,11 @@ extension Song: CustomStringConvertible {
   // Example:       (35 spaces)                         (20 spaces)     (12 spaces)
   // | Title                               | Artist                   | Style       | Size (MB)
   var description: String {
-    // TODO: - YOUR CODE HERE
+      //Set the spaces after the words of each category to mantain same table size
       let titleSpace = String(repeating: " ", count: 35 - title.count)
       let artistSpace = String(repeating: " ", count: 20 - artist.count)
+      //--------------------------------------------------------------------------
+      //This sets the string used for each of the categories as well as the spaces after
       var catString = ""
       switch category {
       case .pop:
@@ -59,7 +61,9 @@ extension Song: CustomStringConvertible {
       case .rnb:
           catString = "RnB\(String(repeating: " ", count: 9))"
       }
+      //Get the size of the song as a string with only one decimal
       let sizeString = String(format: "%.1f", Double(size) / 1000)
+      //Give the description in a table like manner
     return "| \(title)\(titleSpace)| \(artist)\(artistSpace)| \(catString)| \(sizeString)"
   }
 }

@@ -7,19 +7,24 @@
 
 import Foundation
 
-var running = true
-var playlist = Playlist()
-menuLoop: while running {
+var playlist = Playlist() //The playlist instance used for program
+
+menuLoop: while true { //The main loop that shows the menu and handles all the logic
     showMenu()
-    if let input = readLine() {
+    
+    if let input = readLine() { //Get and unwrap the user input choosing activity
+        //Use a switch to run logic depending on the chosen option
         switch input.lowercased() {
-        case "a": //Add song
+        //Add a new song
+        case "a":
             print("Add a new song to the playlist!")
+            //Initialize variables for new song
             var newTitle = ""
             var newArtist = ""
             var newCat: Song.Style = .pop
             var newSize = 0
-        title: while true {
+            //---------------------------------
+        title: while true { //Get and unwrap input for the title of new song
             print("Enter a new song's title:")
             if let titleInput = readLine() {
                 newTitle = titleInput
@@ -27,7 +32,7 @@ menuLoop: while running {
             }
             print("Invalid title. Please re-enter:")
         }
-        artist: while true {
+        artist: while true { //Get and unwrap input for the artist name of new song
             print("Enter a new song's artist:")
             if let artistInput = readLine() {
                 newArtist = artistInput
@@ -35,10 +40,10 @@ menuLoop: while running {
             }
             print("Invalid artist. Please re-enter:")
         }
-        category: while true {
+        category: while true { //Get input for new song's category and unwrap it
             print("Enter a new song's category (P: Pop, R: Rock, A: Alternative, B: RnB, H: Hiphop, C: Classical)")
             if let categoryInput = readLine() {
-                switch categoryInput.lowercased() {
+                switch categoryInput.lowercased() { //Switch to set categry based on user input
                 case "p":
                     newCat = .pop
                     break category
@@ -62,10 +67,10 @@ menuLoop: while running {
                 }
             }
         }
-        size: while true {
+        size: while true { //Get and unwrap input for the size of new song
             print("Enter a new song's size:")
-            if let sizeInput = readLine() {
-                if let sizeInt = Int(sizeInput) {
+            if let sizeInput = readLine() { //Unwrap it
+                if let sizeInt = Int(sizeInput) { //Check it's a valid Int
                     newSize = sizeInt
                     break
                 }
@@ -74,20 +79,25 @@ menuLoop: while running {
                 print("Invalid size. Please re-enter:")
             }
         }
+            //Add a song with received values
             playlist.addSong(Song(title: newTitle, artist: newArtist, category: newCat, size: newSize))
             print()
             continue
+        //Find a song in the playlist
         case "f":
             print("Find a song in the playlist!")
             while true {
                 print("Enter your search Keyword:")
-                if let searchInput = readLine() {
+                if let searchInput = readLine() { //Get and unwrap the search word(s)
+                    //Variable to store songs mathching in title and songs matching in artist name
                     let songs: ([Song], [Song]) = playlist.findSongs(searchInput)
+                    //Print songs with matching titles
                     print("=== Matched Titles ===")
                     for song in songs.0 {
                         print(song)
                     }
                     print("=== \(songs.0.count) matches ===")
+                    //Print songs with matching artists
                     print("=== Matched Artists ===")
                     for song in songs.1 {
                         print(song)
@@ -98,17 +108,18 @@ menuLoop: while running {
                 }
                 print("Invalid Input. Please re-enter:")
             }
+        //Delete a song in the playlist
         case "d":
             print("Delete a song from the playlist!")
             while true {
                 print("Enter the title of the song you want to remove from your playlist:")
-                if let deleteInput = readLine() {
-                    let done = playlist.deleteSong(deleteInput)
-                    if done {
+                if let deleteInput = readLine() { //Get and unwrap input
+                    let done = playlist.deleteSong(deleteInput) //Try to delete song and save if succesfully done so
+                    if done { //If a song was found and deleted
                         print("Successfully removed the song from the playlist.")
                         print()
                         break
-                    } else {
+                    } else { //If no songs matched the title given
                         print("No song found with title: \(deleteInput).")
                         print()
                         break
@@ -116,16 +127,18 @@ menuLoop: while running {
                 }
                 print("Invalid Input. Please re-enter:")
             }
+        //Show all songs in playlist
         case "s":
             print("Show the entire playlist!")
             playlist.showPlaylist()
+        //Show all songs in chosen category
         case "c":
             print("Show by category!")
             var cat = Song.Style.pop
-        cat: while true {
+        cat: while true { //Get input for category
                 print("Enter a category to display: (P: Pop, R: Rock, A: Alternative, B: RnB, H: Hiphop, C: Classical)")
-                if let catInput = readLine() {
-                    switch catInput.lowercased() {
+                if let catInput = readLine() { //Unwrap the input
+                    switch catInput.lowercased() { //Set the category used based on user input
                     case "p":
                         cat = .pop
                         break cat
@@ -149,26 +162,30 @@ menuLoop: while running {
                     }
                 }
             }
-            playlist.showByCat(cat)
+            playlist.showByCat(cat) //Display the songs in given category
+        //Show the total space used by songs
         case "z":
             print("Show playlist size!")
             playlist.checkSize()
+        //Show the menu again
         case "m":
             print("Show this menu!")
             continue
+        //Exit the program
         case "x":
             break menuLoop
+        //In case of invalid input when choosing activities
         default:
             print("Invalid Input. Please re-enter:")
             continue
         }
-    } else {
+    } else { //In case that user provides invalid input
         print("Invalid Input. Please re-enter:")
         continue
     }
 }
 
-func showMenu() {
+func showMenu() { //Function to show all the menu items
     print("A: Add a song to the playlist")
     print("F: Find a song in the playlist")
     print("D: Delete a song from the playlist")
